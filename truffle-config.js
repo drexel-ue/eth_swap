@@ -1,11 +1,12 @@
 require('babel-register');
 require('babel-polyfill');
+require('dotenv').config();
 
 module.exports = {
   networks: {
     development: {
-      host: "127.0.0.1",
-      port: 7545,
+      host: process.env.HOST,
+      port: process.env.PORT,
       network_id: "*" // Match any network id
     },
   },
