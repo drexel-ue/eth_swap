@@ -23,6 +23,16 @@ contract('EthSwap', (accounts) => {
 
             assert.equal(name, 'EthSwap Instant Exchange')
         })
+
+        it('contract has tokens', async () => {
+            const token = await Token.new()
+            const ethSwap = await EthSwap.new()
+            const totalSupply = (await token.totalSupply()).toString();
+            await token.transfer(ethSwap.address, totalSupply);
+            const balance = await token.balanceOf(ethSwap.address)
+
+            assert.equal(balance.toString(), totalSupply)
+        })
     })
 
 })
