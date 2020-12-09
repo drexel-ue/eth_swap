@@ -5,6 +5,10 @@ const EthSwap = artifacts.require('EthSwap')
 
 require('chai').use(require('chai-as-promised')).should()
 
+function tokens(n) {
+    return web3.utils.toWei(n, 'ether')
+}
+
 contract('EthSwap', (accounts) => {
 
     let token, ethSwap
@@ -35,6 +39,12 @@ contract('EthSwap', (accounts) => {
             const balance = await token.balanceOf(ethSwap.address)
 
             assert.equal(balance.toString(), totalSupply)
+        })
+
+        it('has 1000000 tokens in circulation', async () => {
+            const balance = await token.balanceOf(ethSwap.address)
+
+            assert.equal(balance.toString(), tokens('1000000'))
         })
     })
 
