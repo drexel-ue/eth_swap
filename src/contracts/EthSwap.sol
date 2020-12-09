@@ -19,8 +19,16 @@ contract EthSwap {
     }
 
     function buyTokens() public payable {
+        // Calculate the number of tokens to buy.
         uint256 tokenAmount = msg.value * rate;
+
+        // Require that EthSwap has enough tokens.
+        require(token.balanceOf(address(this)) >= tokenAmount);
+
+        // Transfer tokens to the user.
         token.transfer(msg.sender, tokenAmount);
+
+        // Emit an event.
         emit TokenPurchased(msg.sender, address(token), tokenAmount, rate);
     }
 }
