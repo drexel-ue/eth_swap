@@ -35,15 +35,10 @@ contract('EthSwap', (accounts) => {
             assert.equal(name, 'EthSwap Instant Exchange')
         })
 
-        it('contract has tokens', async () => {
+        it('contract has tokens (1,000,000)', async () => {
             const balance = await token.balanceOf(ethSwap.address)
 
             assert.equal(balance.toString(), totalSupply)
-        })
-
-        it('has 1000000 tokens in circulation', async () => {
-            const balance = await token.balanceOf(ethSwap.address)
-
             assert.equal(balance.toString(), tokens('1000000'))
         })
     })
