@@ -15,7 +15,7 @@ contract('EthSwap', (accounts) => {
 
     before(async () => {
         token = await Token.new()
-        ethSwap = await EthSwap.new()
+        ethSwap = await EthSwap.new(token.address)
         totalSupply = (await token.totalSupply()).toString();
         await token.transfer(ethSwap.address, totalSupply);
     })
