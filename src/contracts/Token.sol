@@ -25,7 +25,10 @@ contract Token {
         public
         returns (bool success)
     {
-        require(balanceOf[msg.sender] >= _value);
+        require(
+            balanceOf[msg.sender] >= _value,
+            "Insufficient funds for tansfer."
+        );
         balanceOf[msg.sender] -= _value;
         balanceOf[_to] += _value;
         emit Transfer(msg.sender, _to, _value);
@@ -46,8 +49,11 @@ contract Token {
         address _to,
         uint256 _value
     ) public returns (bool success) {
-        require(_value <= balanceOf[_from]);
-        require(_value <= allowance[_from][msg.sender]);
+        require(_value <= balanceOf[_from], "Insufficient funds for tansfer.");
+        require(
+            _value <= allowance[_from][msg.sender],
+            "Insufficient funds for tansfer."
+        );
         balanceOf[_from] -= _value;
         balanceOf[_to] += _value;
         allowance[_from][msg.sender] -= _value;
