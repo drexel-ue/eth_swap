@@ -52,7 +52,7 @@ contract Token {
         require(_value <= balanceOf[_from], "Insufficient funds for tansfer.");
         require(
             _value <= allowance[_from][msg.sender],
-            "Insufficient funds for tansfer."
+            "Transfer amount has not been approved."
         );
         balanceOf[_from] -= _value;
         balanceOf[_to] += _value;
