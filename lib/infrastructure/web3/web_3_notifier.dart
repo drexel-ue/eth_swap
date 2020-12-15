@@ -19,7 +19,9 @@ class VerifiedPrivateKey extends Web3State {
 }
 
 class PrivateKeyVerificationFailure extends Web3State {
-  const PrivateKeyVerificationFailure();
+  const PrivateKeyVerificationFailure(this.message);
+
+  final String message;
 }
 
 class RunningTransaction extends Web3State {
@@ -47,8 +49,7 @@ class Web3Notifier extends StateNotifier<Web3State> {
 
       state = VerifiedPrivateKey();
     } catch (_) {
-      print(_);
-      state = PrivateKeyVerificationFailure();
+      state = PrivateKeyVerificationFailure(_.toString());
     }
   }
 }
