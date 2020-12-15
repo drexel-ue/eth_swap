@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DynamicRouter {
-  static const landing = '/';
-
   static Route onGenerateRoute(RouteSettings settings) {
     for (final matcher in PathMatcher.matchers) {
       if (matcher.regExp.hasMatch(settings.name?.toLowerCase() ?? '')) {
@@ -20,9 +18,7 @@ class DynamicRouter {
 }
 
 class _FadeRoute extends PageRouteBuilder {
-  final WidgetBuilder builder;
-
-  _FadeRoute(this.builder, RouteSettings settings)
+  _FadeRoute(builder, RouteSettings settings)
       : super(
           settings: settings,
           pageBuilder: (context, __, ___) => builder(context),

@@ -6,8 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DynamicRouter {
-  static const landing = '/';
-
   static Route onGenerateRoute(RouteSettings settings) {
     for (final matcher in PathMatcher.matchers) {
       if (matcher.regExp.hasMatch(settings.name?.toLowerCase() ?? '')) {
