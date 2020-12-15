@@ -72,7 +72,7 @@ class Web3RepositoryImpl extends Web3Repository {
     _buyTokens = _ethSwapContract.function('buyTokens');
     _sellTokens = _ethSwapContract.function('sellTokens');
     _tokensSoldEvent = _ethSwapContract.event('TokensSold');
-    _tokensPurchasedEvent = _ethSwapContract.event('TokensPurchsed');
+    _tokensPurchasedEvent = _ethSwapContract.event('TokensPurchased');
 
     _tokenContract = DeployedContract(ContractAbi.fromJson(_tokenAbiCode, 'Token'), _tokenContractAddress);
     _approveSale = _tokenContract.function('approve');
