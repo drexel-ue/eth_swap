@@ -1,3 +1,4 @@
+import 'package:eth_swap/dynamic_router/path_matcher.dart';
 import 'package:eth_swap/infrastructure/key_stored/key_stored_notifier.dart';
 import 'package:eth_swap/infrastructure/providers.dart';
 import 'package:flutter_riverpod/all.dart';
@@ -24,7 +25,7 @@ class _LandingState extends State<Landing> {
         child: ProviderListener(
           provider: keyStoredNotifierProvider.state,
           onChange: (context, state) {
-            // if(state is KeyNotFound)
+            if (state is KeyNotFound) Navigator.pushNamed(context, PathMatcher.privateKeyEntry);
           },
           child: Consumer(
             builder: (context, watch, child) {
