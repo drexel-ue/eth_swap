@@ -17,7 +17,6 @@ class _MyAppState extends State<MyApp> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ProviderScope(
-        observers: [AllObserver()],
         child: MaterialApp(
           title: 'EthSwap',
           theme: ThemeData.light(),
