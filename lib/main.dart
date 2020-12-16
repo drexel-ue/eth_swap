@@ -27,6 +27,4 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-  void initApp() {}
 }
