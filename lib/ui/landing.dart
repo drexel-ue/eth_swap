@@ -1,5 +1,5 @@
 import 'package:eth_swap/dynamic_router/path_matcher.dart';
-import 'package:eth_swap/infrastructure/key_stored/key_stored_notifier.dart';
+import 'package:eth_swap/infrastructure/local_auth/local_auth_notifier.dart';
 import 'package:eth_swap/infrastructure/providers.dart';
 import 'package:flutter_riverpod/all.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class _LandingState extends State<Landing> {
   @override
   void initState() {
     super.initState();
-    context.read(keyStoredNotifierProvider).checkInitialStatus();
+    context.read(localAuthNotifierProvider).checkInitialStatus();
   }
 
   @override
@@ -23,13 +23,13 @@ class _LandingState extends State<Landing> {
     return Scaffold(
       body: Center(
         child: ProviderListener(
-          provider: keyStoredNotifierProvider.state,
+          provider: localAuthNotifierProvider.state,
           onChange: (context, state) {
             if (state is KeyNotFound) Navigator.pushNamed(context, PathMatcher.privateKeyEntry);
           },
           child: Consumer(
             builder: (context, watch, child) {
-              final state = watch(keyStoredNotifierProvider.state);
+              final state = watch(localAuthNotifierProvider.state);
 
               if (state is KeyFound)
                 return Icon(

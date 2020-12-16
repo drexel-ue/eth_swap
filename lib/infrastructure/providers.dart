@@ -1,6 +1,6 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
-import 'package:eth_swap/infrastructure/key_stored/key_stored_notifier.dart';
+import 'package:eth_swap/infrastructure/local_auth/local_auth_notifier.dart';
 import 'package:eth_swap/infrastructure/storage/storage_repository.dart';
 import 'package:eth_swap/infrastructure/web3/web_3_notifier.dart';
 import 'package:eth_swap/infrastructure/web3/web_3_repository.dart';
@@ -12,4 +12,4 @@ final _web3RepositoryProvider = Provider<Web3Repository>((ref) => Web3Repository
 
 final web3NotifierProvider = StateNotifierProvider((ref) => Web3Notifier(ref.watch(_web3RepositoryProvider)));
 
-final keyStoredNotifierProvider = StateNotifierProvider((ref) => KeyStoredNotifier(ref.watch(storageRepositoryProvider)));
+final localAuthNotifierProvider = StateNotifierProvider((ref) => LocalAuthNotifier(ref.watch(storageRepositoryProvider)));

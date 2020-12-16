@@ -15,7 +15,9 @@ class VerifyingPrivateKey extends Web3State {
 }
 
 class VerifiedPrivateKey extends Web3State {
-  const VerifiedPrivateKey();
+  const VerifiedPrivateKey(this.privateKey);
+
+  final String privateKey;
 }
 
 class PrivateKeyVerificationFailure extends Web3State {
@@ -47,7 +49,7 @@ class Web3Notifier extends StateNotifier<Web3State> {
 
       await _web3repository.getCredentials(_privateKey);
 
-      state = VerifiedPrivateKey();
+      state = VerifiedPrivateKey(_privateKey);
     } catch (_) {
       state = PrivateKeyVerificationFailure(_.toString());
     }

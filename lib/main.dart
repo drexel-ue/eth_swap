@@ -6,18 +6,28 @@ import 'package:flutter_riverpod/all.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      observers: [AllObserver()],
-      child: MaterialApp(
-        title: 'EthSwap',
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
-        themeMode: ThemeMode.system,
-        onGenerateRoute: DynamicRouter.onGenerateRoute,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: ProviderScope(
+        observers: [AllObserver()],
+        child: MaterialApp(
+          title: 'EthSwap',
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          themeMode: ThemeMode.system,
+          onGenerateRoute: DynamicRouter.onGenerateRoute,
+        ),
       ),
     );
   }
+
+  void initApp() {}
 }
