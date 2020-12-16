@@ -24,7 +24,7 @@ class DynamicRouter {
       }
     }
 
-    return Platform.isIOS
+    return Platform.isIOS || Platform.isMacOS
         ? CupertinoPageRoute(
             builder: (BuildContext context) => Landing(),
             settings: settings,

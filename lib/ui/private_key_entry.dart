@@ -1,4 +1,5 @@
 import 'package:eth_swap/common/functions/show_target_theme_alert.dart';
+import 'package:eth_swap/dynamic_router/path_matcher.dart';
 import 'package:eth_swap/infrastructure/local_auth/local_auth_notifier.dart';
 import 'package:eth_swap/infrastructure/providers.dart';
 import 'package:eth_swap/infrastructure/web3/web_3_notifier.dart';
@@ -47,6 +48,8 @@ class _PrivateKeyEntryState extends State<PrivateKeyEntry> {
                   )
                 ],
               );
+
+            if (state is PINSaved) Navigator.pushNamedAndRemoveUntil(context, PathMatcher.ethSwap, (_) => false);
           },
           child: ProviderListener(
             provider: web3NotifierProvider.state,
@@ -62,8 +65,6 @@ class _PrivateKeyEntryState extends State<PrivateKeyEntry> {
                     )
                   ],
                 );
-
-              // if(state is VerifiedPrivateKey)
             },
             child: SizedBox(
               width: 400,
