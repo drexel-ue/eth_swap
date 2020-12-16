@@ -26,6 +26,7 @@ class _LandingState extends State<Landing> {
           provider: localAuthNotifierProvider.state,
           onChange: (context, state) {
             if (state is KeyNotFound) Navigator.pushNamed(context, PathMatcher.privateKeyEntry);
+            if (state is KeyFound) Navigator.pushNamed(context, PathMatcher.pinEntry);
           },
           child: Consumer(
             builder: (context, watch, child) {

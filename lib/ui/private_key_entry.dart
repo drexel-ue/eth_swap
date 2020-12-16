@@ -87,8 +87,11 @@ class _PrivateKeyEntryState extends State<PrivateKeyEntry> {
                                 obscureText: true,
                                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 onSubmitted: (_) {
-                                  if (web3state is! VerifiedPrivateKey && web3state is! VerifyingPrivateKey)
-                                    context.read(web3NotifierProvider).verifyPrivateKey(_controller.text.trim());
+                                  if (localAuthState is! PINSaved && localAuthState is! SavingPIN)
+                                    context.read(localAuthNotifierProvider).setPIN(
+                                          pin: _controller.text.trim(),
+                                          privateKey: web3state.privateKey,
+                                        );
                                 },
                                 decoration: InputDecoration(
                                   labelText: 'PIN',
@@ -101,7 +104,7 @@ class _PrivateKeyEntryState extends State<PrivateKeyEntry> {
                               child: RaisedButton(
                                 onPressed: () {
                                   if (localAuthState is! PINSaved && localAuthState is! SavingPIN)
-                                    context.read(localAuthNotifierProvider).setPin(
+                                    context.read(localAuthNotifierProvider).setPIN(
                                           pin: _controller.text.trim(),
                                           privateKey: web3state.privateKey,
                                         );

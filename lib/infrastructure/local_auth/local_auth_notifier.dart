@@ -65,12 +65,22 @@ class LocalAuthNotifier extends StateNotifier<LocalAuthState> {
     }
   }
 
-  Future<void> setPin({required String pin, required String privateKey}) async {
+  Future<void> setPIN({required String pin, required String privateKey}) async {
     try {
       state = SavingPIN();
       await _storageRepository.setString(key: StorageConstants.pin, value: pin);
       await _storageRepository.setString(key: StorageConstants.privateKey, value: privateKey);
       state = PINSaved();
+    } catch (e) {
+      state = PinFailure(e.toString());
+    }
+  }
+
+  Future<void> verifyPIN(String _pin) async {
+    try {
+      state = VerifyingPIN();
+      final storedPIN = await _storageRepository.getString(StorageConstants.pin);
+      state = storedPIN == _pin ? PINValid() : PINInvalid();
     } catch (e) {
       state = PinFailure(e.toString());
     }
