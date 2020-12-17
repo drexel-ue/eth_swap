@@ -26,16 +26,22 @@ class PrivateKeyVerificationFailure extends Web3State {
   final String message;
 }
 
-class RunningTransaction extends Web3State {
-  const RunningTransaction();
+class CheckingUserBalance extends Web3State {
+  const CheckingUserBalance();
 }
 
-class TransactionSuccessful extends Web3State {
-  const TransactionSuccessful();
+class UserBalanceCheckSuccessful extends Web3State {
+  const UserBalanceCheckSuccessful();
 }
 
-class TransactionUnsuccessful extends Web3State {
-  const TransactionUnsuccessful();
+class UserBalanceCheckUnsuccessful extends Web3State {
+  const UserBalanceCheckUnsuccessful();
+}
+
+class UserBalanceFailuere extends Web3State {
+  const UserBalanceFailuere(this.message);
+
+  final String message;
 }
 
 class Web3Notifier extends StateNotifier<Web3State> {
@@ -50,6 +56,16 @@ class Web3Notifier extends StateNotifier<Web3State> {
       await _web3repository.getCredentials(_privateKey);
 
       state = VerifiedPrivateKey(_privateKey);
+    } catch (_) {
+      state = PrivateKeyVerificationFailure(_.toString());
+    }
+  }
+
+  Future<void> balanceOfUser() async {
+    try {
+      await _web3repository.checkUserBalance();
+
+      state = UserBalanceCheckSuccessful();
     } catch (_) {
       state = PrivateKeyVerificationFailure(_.toString());
     }

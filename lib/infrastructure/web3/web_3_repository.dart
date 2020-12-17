@@ -9,6 +9,8 @@ import 'package:web_socket_channel/io.dart';
 
 abstract class Web3Repository {
   Future<void> getCredentials(String _privateKey);
+
+  Future<void> checkUserBalance();
 }
 
 class Web3RepositoryImpl extends Web3Repository {
@@ -31,6 +33,7 @@ class Web3RepositoryImpl extends Web3Repository {
   late final EthereumAddress _tokenContractAddress;
   late final DeployedContract _tokenContract;
   late final ContractFunction _approveSale;
+  late final ContractFunction _balanceOf;
   late final ContractEvent _saleApprovedEvent;
 
   Web3RepositoryImpl() {
@@ -40,7 +43,7 @@ class Web3RepositoryImpl extends Web3Repository {
   Future<void> _init() async {
     _client = Web3Client(
       _rpcUrl,
-      Client(),
+      LoggingClient(Client()),
       socketConnector: () => IOWebSocketChannel.connect(_wsUrl).cast<String>(),
     );
 
@@ -61,12 +64,6 @@ class Web3RepositoryImpl extends Web3Repository {
     await _getDeployedContract();
   }
 
-  @override
-  Future<void> getCredentials(String _privateKey) async {
-    _credentials = await _client.credentialsFromPrivateKey(_privateKey);
-    _ownAddress = await _credentials.extractAddress();
-  }
-
   Future<void> _getDeployedContract() async {
     _ethSwapContract = DeployedContract(ContractAbi.fromJson(_ethSwapAbiCode, 'EthSwap'), _ethSwapContractAddress);
     _buyTokens = _ethSwapContract.function('buyTokens');
@@ -76,6 +73,42 @@ class Web3RepositoryImpl extends Web3Repository {
 
     _tokenContract = DeployedContract(ContractAbi.fromJson(_tokenAbiCode, 'Token'), _tokenContractAddress);
     _approveSale = _tokenContract.function('approve');
+    _balanceOf = _tokenContract.function('balanceOf');
     _saleApprovedEvent = _tokenContract.event('Approval');
+  }
+
+  @override
+  Future<void> getCredentials(String _privateKey) async {
+    _credentials = await _client.credentialsFromPrivateKey(_privateKey);
+    _ownAddress = await _credentials.extractAddress();
+  }
+
+  @override
+  Future<void> checkUserBalance() async {
+    final result = await _client.getBalance(_ethSwapContractAddress);
+
+    print(result.getInEther);
+  }
+}
+
+class LoggingClient extends BaseClient {
+  final Client _inner;
+
+  LoggingClient(this._inner);
+
+  @override
+  Future<StreamedResponse> send(BaseRequest request) async {
+    if (request is Request) {
+      print('sending ${request.url} with ${request.body}');
+    } else {
+      print('sending ${request.url}');
+    }
+
+    final response = await _inner.send(request);
+    final read = await Response.fromStream(response);
+
+    print('response:\n${read.body}');
+
+    return StreamedResponse(Stream.fromIterable([read.bodyBytes]), response.statusCode);
   }
 }

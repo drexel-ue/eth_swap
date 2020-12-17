@@ -37,18 +37,6 @@ class _PrivateKeyEntryState extends State<PrivateKeyEntry> {
         child: ProviderListener(
           provider: localAuthNotifierProvider.state,
           onChange: (context, state) {
-            if (state is PrivateKeyVerificationFailure)
-              showTargetThemeAlert(
-                context,
-                content: Text(state.message),
-                actions: [
-                  AlertAction(
-                    () => Navigator.pop(context),
-                    Text('OK'),
-                  )
-                ],
-              );
-
             if (state is PINSaved) Navigator.pushNamedAndRemoveUntil(context, PathMatcher.ethSwap, (_) => false);
           },
           child: ProviderListener(

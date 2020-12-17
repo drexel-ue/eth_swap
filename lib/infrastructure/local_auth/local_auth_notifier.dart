@@ -37,7 +37,9 @@ class PINInvalid extends LocalAuthState {
 }
 
 class PINValid extends LocalAuthState {
-  const PINValid();
+  const PINValid(this.privateKey);
+
+  final String privateKey;
 }
 
 class VerifyingPIN extends LocalAuthState {
@@ -56,6 +58,7 @@ class LocalAuthNotifier extends StateNotifier<LocalAuthState> {
   LocalAuthNotifier(this._storageRepository) : super(const LocalAuthInitial());
 
   Future<void> checkInitialStatus() async {
+    await _storageRepository.removeAll();
     try {
       final storedKey = await _storageRepository.getString(StorageConstants.privateKey);
       final storedPIN = await _storageRepository.getString(StorageConstants.pin);
@@ -80,7 +83,7 @@ class LocalAuthNotifier extends StateNotifier<LocalAuthState> {
     try {
       state = VerifyingPIN();
       final storedPIN = await _storageRepository.getString(StorageConstants.pin);
-      state = storedPIN == _pin ? PINValid() : PINInvalid();
+      state = storedPIN == _pin ? PINValid((await _storageRepository.getString(StorageConstants.privateKey)) ?? '') : PINInvalid();
     } catch (e) {
       state = PinFailure(e.toString());
     }
