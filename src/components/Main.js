@@ -43,7 +43,7 @@ class Main extends Component {
                                     type='text'
                                     className='form-control form-control-lg'
                                     placeholder='0'
-                                    required
+                                    disabled
                                 />
                                 <div className='input-group-append'>
                                     <div className='input-group-text'>
