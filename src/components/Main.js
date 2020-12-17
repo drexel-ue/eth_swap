@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import Identicon from 'identicon.js';
+
+import tokenLogo from '../token-logo.png'
+import ethLogo from '../eth-logo.png'
 
 
 class Main extends Component {
@@ -25,7 +27,7 @@ class Main extends Component {
                                 />
                                 <div className='input-group-append'>
                                     <div className='input-group-text'>
-                                        <img src='' height='32' alt='' />
+                                        <img src={ethLogo} height='32' alt='' />
                                         &nbsp;&nbsp;&nbsp; ETH
                                     </div>
                                 </div>
@@ -45,7 +47,7 @@ class Main extends Component {
                                 />
                                 <div className='input-group-append'>
                                     <div className='input-group-text'>
-                                        <img src='' height='32' alt='' />
+                                        <img src={tokenLogo} height='32' alt='' />
                                         &nbsp; DApp
                                     </div>
                                 </div>
