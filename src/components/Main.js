@@ -15,7 +15,7 @@ class Main extends Component {
                             <div>
                                 <label className='float-left'><b>Input</b></label>
                                 <span className='float-right text-muted'>
-                                    Balance: 0
+                                    Balance: {window.web3.utils.fromWei(this.props.ethBalance, 'ether')}
                                 </span>
                             </div>
                             <div className='input-group mb-4'>
@@ -35,7 +35,7 @@ class Main extends Component {
                             <div>
                                 <label className='float-left'><b>Output</b></label>
                                 <span className='float-right text-muted'>
-                                    Balance: 0
+                                    Balance: {window.web3.utils.fromWei(this.props.tokenBalance, 'ether')}
                                 </span>
                             </div>
                             <div className='input-group mb-2'>

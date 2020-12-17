@@ -78,7 +78,7 @@ class App extends Component {
         if (this.state.loading) {
             content = <p id='loader' className='text-center'>Loading...</p>
         } else {
-            content = <Main />
+            content = <Main tokenBalance={this.state.tokenBalance} ethBalance={this.state.ethBalance} />
         }
 
         return (
