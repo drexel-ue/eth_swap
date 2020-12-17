@@ -6,6 +6,19 @@ import ethLogo from '../eth-logo.png'
 
 class Main extends Component {
 
+    constructor(props) {
+        super(props)
+
+        this.state = { output: '0' }
+
+        this.handleInput = this.handleInput.bind(this)
+    }
+
+    handleInput(event) {
+        event.preventDefault()
+        this.setState({ ...this.state, output: this.input.value.toString() * 100 })
+    }
+
     render() {
         return (
             <div id="content">
@@ -21,6 +34,8 @@ class Main extends Component {
                             <div className='input-group mb-4'>
                                 <input
                                     type='text'
+                                    onChange={this.handleInput}
+                                    ref={(input) => this.input = input}
                                     className='form-control form-control-lg'
                                     placeholder='0'
                                     required
@@ -43,6 +58,7 @@ class Main extends Component {
                                     type='text'
                                     className='form-control form-control-lg'
                                     placeholder='0'
+                                    value={this.state.output}
                                     disabled
                                 />
                                 <div className='input-group-append'>
