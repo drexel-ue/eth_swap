@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 
-import tokenLogo from '../token-logo.png'
-import ethLogo from '../eth-logo.png'
+import BuyForm from './BuyFrom'
+import SellForm from './SellForm';
 
 
 class Main extends Component {
@@ -9,79 +9,41 @@ class Main extends Component {
     constructor(props) {
         super(props)
 
-        this.state = { output: '0' }
+        this.state = { buying: true }
 
-        this.handleInput = this.handleInput.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
+        this.setBuying = this.setBuying.bind(this)
+        this.setSelling = this.setSelling.bind(this)
     }
 
-    handleInput(event) {
+    setBuying(event) {
         event.preventDefault()
-        this.setState({ ...this.state, output: this.input.value.toString() * 100 })
+        if (!this.state.buying) this.setState({ ...this.state, buying: true })
     }
 
-    onSubmit(event) {
+    setSelling(event) {
         event.preventDefault()
-        let etherAmount = this.input.value.toString()
-        etherAmount = window.web3.utils.toWei(etherAmount, 'ether')
-        this.props.buyTokens(etherAmount)
+        if (this.state.buying) this.setState({ ...this.state, buying: false })
     }
 
     render() {
         return (
-            <div id="content">
+            <div id="content" className='mt-3'>
+                <div className='d-flex justify-content-between mb-3'>
+                    <button className='btn btn-light' onClick={this.setBuying}>Buy</button>
+                    <span className='text-muted'>&lt; &nbsp; &gt;</span>
+                    <button className='btn btn-light' onClick={this.setSelling}>Sell</button>
+                </div>
                 <div className='card mb-4'>
                     <div className='card-body'>
-                        <form className='mb-3' onSubmit={this.onSubmit}>
-                            <div>
-                                <label className='float-left'><b>Input</b></label>
-                                <span className='float-right text-muted'>
-                                    Balance: {window.web3.utils.fromWei(this.props.ethBalance, 'ether')}
-                                </span>
-                            </div>
-                            <div className='input-group mb-4'>
-                                <input
-                                    type='text'
-                                    onChange={this.handleInput}
-                                    ref={(input) => this.input = input}
-                                    className='form-control form-control-lg'
-                                    placeholder='0'
-                                    required
+                        {
+                            this.state.buying
+                                ? < BuyForm
+                                    tokenBalance={this.props.tokenBalance}
+                                    ethBalance={this.props.ethBalance}
+                                    buyTokens={this.props.buyTokens}
                                 />
-                                <div className='input-group-append'>
-                                    <div className='input-group-text'>
-                                        <img src={ethLogo} height='32' alt='' />
-                                        &nbsp;&nbsp;&nbsp; ETH
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <label className='float-left'><b>Output</b></label>
-                                <span className='float-right text-muted'>
-                                    Balance: {window.web3.utils.fromWei(this.props.tokenBalance, 'ether')}
-                                </span>
-                            </div>
-                            <div className='input-group mb-2'>
-                                <input
-                                    type='text'
-                                    className='form-control form-control-lg'
-                                    placeholder='0'
-                                    value={this.state.output}
-                                    disabled
-                                />
-                                <div className='input-group-append'>
-                                    <div className='input-group-text'>
-                                        <img src={tokenLogo} height='32' alt='' />
-                                        &nbsp; DApp
-                                    </div>
-                                </div>
-                            </div>
-                            <div className='mb-5'>
-                                <span className='float-left text-muted'>Exchange Rate</span>
-                                <span className='float-right text-muted'>1 ETH = 100 DApp</span>
-                            </div>
-                            <button type='submit' className='btn btn-primary btn-block btn-lg'>SWAP!</button>
-                        </form>
+                                : <SellForm />
+                        }
                     </div>
                 </div>
             </div>
