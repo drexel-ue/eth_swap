@@ -70,6 +70,13 @@ class App extends Component {
         }
     }
 
+    buyTokens = (etherAmount) => {
+        this.setState({ ...this.state, loading: true })
+        this.state.ethSwap.methods.buyTokens()
+            .send({ from: this.state.account, value: etherAmount })
+            .on('transactionHash', (_) => this.setState({ ...this.state, loading: false }))
+    }
+
     render() {
         console.log(this.state)
 
@@ -78,7 +85,11 @@ class App extends Component {
         if (this.state.loading) {
             content = <p id='loader' className='text-center'>Loading...</p>
         } else {
-            content = <Main tokenBalance={this.state.tokenBalance} ethBalance={this.state.ethBalance} />
+            content = <Main
+                tokenBalance={this.state.tokenBalance}
+                ethBalance={this.state.ethBalance}
+                buyTokens={this.buyTokens}
+            />
         }
 
         return (

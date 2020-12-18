@@ -12,6 +12,7 @@ class Main extends Component {
         this.state = { output: '0' }
 
         this.handleInput = this.handleInput.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
     handleInput(event) {
@@ -19,12 +20,19 @@ class Main extends Component {
         this.setState({ ...this.state, output: this.input.value.toString() * 100 })
     }
 
+    onSubmit(event) {
+        event.preventDefault()
+        let etherAmount = this.input.value.toString()
+        etherAmount = window.web3.utils.toWei(etherAmount, 'ether')
+        this.props.buyTokens(etherAmount)
+    }
+
     render() {
         return (
             <div id="content">
                 <div className='card mb-4'>
                     <div className='card-body'>
-                        <form className='mb-3'>
+                        <form className='mb-3' onSubmit={this.onSubmit}>
                             <div>
                                 <label className='float-left'><b>Input</b></label>
                                 <span className='float-right text-muted'>
