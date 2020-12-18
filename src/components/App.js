@@ -74,7 +74,7 @@ class App extends Component {
         this.setState({ ...this.state, loading: true })
         this.state.ethSwap.methods.buyTokens()
             .send({ from: this.state.account, value: etherAmount })
-            .on('transactionHash', (_) => window.location.reload())
+            .on('confirmation', (_) => window.location.reload())
     }
 
     sellTokens = (tokenAmount) => {
