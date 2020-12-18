@@ -77,6 +77,17 @@ class App extends Component {
             .on('transactionHash', (_) => this.setState({ ...this.state, loading: false }))
     }
 
+    sellTokens = (tokenAmount) => {
+        this.setState({ ...this.state, loading: true })
+        this.state.token.methods.approve(this.state.ethSwap.address, tokenAmount)
+            .send({ from: this.state.account })
+            .on('transactionHash', (_) => {
+                this.state.ethSwap.methods.sellTokens(tokenAmount)
+                    .send({ from: this.state.account })
+                    .on('transactionHash', (_) => this.setState({ ...this.state, loading: false }))
+            })
+    }
+
     render() {
 
         let content
@@ -88,6 +99,7 @@ class App extends Component {
                 tokenBalance={this.state.tokenBalance}
                 ethBalance={this.state.ethBalance}
                 buyTokens={this.buyTokens}
+                sellTokens={this.sellTokens}
             />
         }
 

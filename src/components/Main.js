@@ -42,7 +42,11 @@ class Main extends Component {
                                     ethBalance={this.props.ethBalance}
                                     buyTokens={this.props.buyTokens}
                                 />
-                                : <SellForm />
+                                : <SellForm
+                                    tokenBalance={this.props.tokenBalance}
+                                    ethBalance={this.props.ethBalance}
+                                    sellTokens={this.props.sellTokens}
+                                />
                         }
                     </div>
                 </div>
