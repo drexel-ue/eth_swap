@@ -84,7 +84,7 @@ class App extends Component {
             .on('transactionHash', (_) => {
                 this.state.ethSwap.methods.sellTokens(tokenAmount)
                     .send({ from: this.state.account })
-                    .on('transactionHash', (_) => window.location.reload())
+                    .on('confirmation', (_) => window.location.reload())
             })
     }
 
